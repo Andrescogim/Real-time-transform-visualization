@@ -1,0 +1,26 @@
+Creamos un POST:  
+
+   	 Direccion: http://localhost:8083/connectors
+
+	Añadimos cabeceras -->  Content-Type: application/json
+				Accept: application/json
+
+	Añadimos el body --> Lo cogemos de .../exercise3_data_storage\kafka-connect y le añadimos 2 lineas al principio:
+{
+    "name": "elastic-sink-connector",
+    "config": {
+        "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+        "connection.url": "http://elasticsearch:9200",
+        "tasks.max": "1",
+        "topics": "tickers_transformed",
+        "name": "elastic-sink-connector",
+        "auto.create.indices.at.start": "true",
+        "type.name": "ticker",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": "false",
+        "schema.ignore": "true",
+        "key.ignore": "true"
+    },
+    "tasks": [], (Esta y la de abajo NO. Con ellas da error)
+    "type": "sink"
+}

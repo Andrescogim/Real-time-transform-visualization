@@ -1,0 +1,13 @@
+{
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "connection.url": "http://elasticsearch:9200",
+    "tasks.max": "1",
+    "topics": "tickers_transformed",
+    "name": "Elasticserach Connector Sink",
+    "auto.create.indices.at.start": "true",
+    "type.name": "ticker",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "schema.ignore": "true",
+    "key.ignore": "true"
+   }
