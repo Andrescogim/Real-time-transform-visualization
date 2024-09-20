@@ -1,7 +1,5 @@
 version: '2'
 
-# Infrastructure required for the "Big Data Architectures for Investment Banking" course.
-# Author: Esteban Chiner
 services:
 
   # Apache NiFi: Data Ingestion Tool
@@ -112,10 +110,3 @@ services:
       - elasticsearch.hosts=http://elasticsearch:9200
     depends_on:
       - elasticsearch
-
-  # Jupyter: Notebook Analytics
-  jupyter:
-    image: 'jupyter/datascience-notebook:latest'
-    hostname: jupyter
-    ports:
-      - '8888:8888'
