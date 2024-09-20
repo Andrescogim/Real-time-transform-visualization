@@ -46,13 +46,13 @@ Este repositorio contiene una **ETL (Extracción, Transformación y Carga)** dis
 
 Este proyecto sigue una arquitectura de microservicios donde cada componente está contenedorizado con Docker para facilitar su despliegue y escalabilidad. El flujo de datos en tiempo real sigue los siguientes pasos:
 
-1. **Apache NiFi**: Captura datos en tiempo real desde la web, los transforma y los envía a una cola en Kafka.
-2. **Apache Kafka**: Gestiona la transmisión de datos mediante una cola de mensajes que asegura una entrega eficiente y fiable.
+1. **Apache NiFi**: Captura datos en tiempo real desde la web, los transforma y los envía a un topic de Kafka.
+2. **Apache Kafka**: Gestiona la transmisión de datos mediante una cola de mensajes que asegura una entrega eficiente y fiable tanto desde NiFI hasta python como desde Python a Elasticsearch.
 3. **Python**: Procesa los datos recibidos desde Kafka realizando operaciones de transformación y limpieza para mandarlos a otro topic de Kafka.
 4. **ElasticSearch**: Almacena los datos procesados para su indexación y consulta en tiempo real.
 5. **Kibana**: Proporciona una visualización de los datos almacenados en ElasticSearch mediante paneles de control interactivos.
 
-Cada uno de estos servicios es ejecutado en un contenedor Docker independiente, lo que permite una fácil gestión y escalabilidad del sistema.
+Cada uno de estos servicios es ejecutado en un contenedor Docker independiente, lo que permite su reproducción en cualquier equipo así como una fácil gestión y escalabilidad del sistema.
 
 ## Requisitos Previos
 
@@ -91,7 +91,7 @@ Con todo instalado ya podemos comenzar a utilizar los servicios.
 
 <div align="center">
   <a href="https://github.com/Andrescogim/Real-time-transform-visualization">
-    <img src="Files/images/NiFi flow.jpg" alt="Nifi" width="800">
+    <img src="Files/images/NiFi_flow.jpg" alt="Nifi" width="800">
   </a>
 </div>
 
@@ -115,7 +115,7 @@ Con todo instalado ya podemos comenzar a utilizar los servicios.
         Podemos acceder a través del puerto 9021, en http://localhost:9021/.
 
 
-3. Ejecutar script kafka-transform.py (en src/kafka-transform.py) para el procesado de los datos crudos provenientes de la API de Aviationstack. Este programa recibe los mensajes de la cola aviones_pr2 (de NiFi), los imprime en pantalla y tras ser procesados se envían a la cola para mensajes procesados: av_pr_transformed. En el control cente rse puede comprobar que el flujo de datos está funcoinando correctamente ya que vemos los mensajes en av_pr_transformed:
+3. Ejecutar script kafka-transform.py (en src/kafka-transform.py) para el procesado de los datos crudos provenientes de la API de Aviationstack. Este programa recibe los mensajes de la cola aviones_pr2 (de NiFi), los imprime en pantalla y tras ser procesados se envían a la cola para mensajes procesados: av_pr_transformed. En el control center se puede comprobar que el flujo de datos está funcoinando correctamente ya que se ven los mensajes en av_pr_transformed:
 
 ![Kafka procesado](Files/images/Mensajes_procesados.jpg)
 
@@ -126,7 +126,7 @@ Con todo instalado ya podemos comenzar a utilizar los servicios.
     docker-compose start elasticsearch
     docker-compose start kafka-connect
     ```
-Para la conexión con fafka-connect:
+Para la conexión con Kafka-connect:
   * Entrar al Control Center (http://localhost:9021/)
   * Entrar al cluster donde se encuentran todos los topics.
   * En la sección "Connect" vemos el cluster llamado "connect". Le damos y nos da la opción de añadir un conector. Se añade este conector que enlaza la cola de kafka con los mensajes procesados (av_pr_transformed):  
